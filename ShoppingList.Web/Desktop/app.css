@@ -1,0 +1,48 @@
+﻿body {
+    font-family: 'Segoe UI', sans-serif;
+}
+
+span {
+    font-style: italic;
+}
+
+.list_container_selected {
+    background-color: green;
+}
+
+.product_container_bought {
+    text-decoration: line-through;
+}
+
+ul {
+    list-style-type: none;
+}
+
+li {
+    margin-left: -40px;
+    cursor: pointer;
+}
+
+h1 {
+    margin-bottom: -0.7em;
+}
+
+.view-container-lists {
+    width: 48%;
+    min-width: 17em;
+    height: 100%;
+    float: left;
+    margin: 5px;
+}
+
+.view-container-products {
+    width: 48%;
+    min-width: 17em;
+    height: 100%;
+    float: left;
+    margin: 5px;
+}
+
+.main-header {
+    text-align: center;
+}

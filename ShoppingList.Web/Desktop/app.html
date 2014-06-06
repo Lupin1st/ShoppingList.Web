@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>ShoppingList</title>
+
+  <link rel="stylesheet" href="app.css" type="text/css" />
+  <!--Libraries-->
+  <link rel="stylesheet" href="../Scripts/qunit-1.14.0.css" type="text/css" />
+  <link rel="stylesheet" href="../Content/themes/base/jquery-ui.css" type="text/css" />
+  <script src="../Scripts/knockout-3.0.0.debug.js"></script>
+  <script src="../Scripts/jquery-2.0.3.js"></script>
+  <script src="../Scripts/jquery-ui-1.10.4.js"></script>
+
+  <script src="../Core/AppBase.js"></script>
+  <!--Messaging-->
+  <script src="../Core/Services/Messaging/IMessagingService.js"></script>
+  <script src="../Core/Services/Messaging/MessagingService.js"></script>
+  <script src="../Core/Services/Messaging/MessagingTokens.js"></script>
+  <!--Services-->
+  <script src="../Core/Services/INavigationService.js"></script>
+  <script src="../Core/Services/INotificationService.js"></script>
+  <script src="../Core/Services/ServiceLocator.js"></script>
+  <!--Models-->
+  <script src="../Core/Model/IDataModel.js"></script>
+  <script src="../Core/Model/DataModel.js"></script>
+  <script src="../Core/Model/DataList.js"></script>
+  <script src="../Core/Model/DataProduct.js"></script>
+  <!--ViewModels-->
+  <script src="../Core/ViewModel/ViewModelBase.js"></script>
+  <script src="../Core/ViewModel/ListsViewModel.js"></script>
+  <script src="../Core/ViewModel/ProductsViewModel.js"></script>
+  <script src="../Core/ViewModel/AddProductViewModel.js"></script>
+  <script src="../Core/ViewModel/ViewModelLocator.js"></script>
+
+  <script src="Services/NavigationServiceJQueryUi.js"></script>
+  <script src="Services/NotificationServiceJQueryUi.js"></script>
+  <!--App-->
+  <script src="AppDesktop.js"></script>
+  <script src="appstart.js"></script>
+
+
+  <script>
+    $(function () {
+      $("div[data-view='ProductsView'] button")
+        .button();
+    });
+  </script>
+</head>
+<body>
+  <h1 class="main-header">ShoppingList</h1>
+
+  <div data-view="ListsView" class="view-container-lists">
+    <div data-role="header " data-position="inline"><h2>Lists</h2></div>
+    <div data-role="content" data-theme="a">
+      <ul data-bind="foreach: lists">
+        <li data-bind="text: $data.name, click: $root.selectList, css: { list_container_selected: $data == $root.selectedList() }" />
+      </ul>
+    </div>
+  </div>
+  <div data-view="ProductsView" class="view-container-products">
+    <div data-role="header"><h2>Products</h2></div>
+    <button data-bind="click: addProduct, visible: selectedList()">
+      Add Product
+    </button>
+    <button data-bind="click: cleanup, visible: selectedList()">
+      Cleanup
+    </button>
+    <!-- ko with: selectedList -->
+    <ul data-bind="foreach: products">
+      <li data-bind="text: $data.amount() + ' ' + $data.name(), click: $root.buyProduct, css: { product_container_bought: $data.bought }" />
+    </ul>
+    <!-- /ko -->
+  </div>
+  <div style="visibility: collapse">
+    <!--Dialogs-->
+    <div data-view="AddProductView">
+      <div id="AddProductView" title="Add Product" style="margin: 12px">
+        <p>
+          Name: <input data-bind="value: name, valueUpdate: 'afterkeydown'" />
+        </p>
+        <p>Amount: <input data-bind="value: amount" /></p>
+        <button data-bind="click: addProduct, enable: name() && name().length >= 2">
+          Add
+        </button>
+      </div>
+    </div>
+
+    <!--Message box-->
+    <div id="messageBox" title="">
+      <p>
+        <span class="ui-icon ui-icon-alert"
+              style="float:left; margin:0 7px 20px 0;"></span>
+        <span id="messageBoxContent"></span>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

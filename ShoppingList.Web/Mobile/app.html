@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>ShoppingList</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="app.css" type="text/css" />
+  <!--Libraries-->
+  <link rel="stylesheet" href="../Content/jquery.mobile-1.4.0.css" type="text/css" />
+  <script src="../Scripts/knockout-3.0.0.debug.js"></script>
+  <script src="../Scripts/jquery-2.0.3.js"></script>
+  <script src="../Scripts/jquery.mobile-1.4.0.js"></script>
+
+  <script src="../Core/AppBase.js"></script>
+  <!--Messaging-->
+  <script src="../Core/Services/Messaging/IMessagingService.js"></script>
+  <script src="../Core/Services/Messaging/MessagingService.js"></script>
+  <script src="../Core/Services/Messaging/MessagingTokens.js"></script>
+  <!--Services-->
+  <script src="../Core/Services/INavigationService.js"></script>
+  <script src="../Core/Services/NavigationServiceJQueryUi.js"></script>
+  <script src="../Core/Services/INotificationService.js"></script>
+  <script src="../Core/Services/NotificationServiceJQueryUi.js"></script>
+  <script src="../Core/Services/ServiceLocator.js"></script>
+  <!--Models-->
+  <script src="../Core/Model/IDataModel.js"></script>
+  <script src="../Core/Model/DataModel.js"></script>
+  <script src="../Core/Model/DataList.js"></script>
+  <script src="../Core/Model/DataProduct.js"></script>
+  <!--ViewModels-->
+  <script src="../Core/ViewModel/ViewModelBase.js"></script>
+  <script src="../Core/ViewModel/ListsViewModel.js"></script>
+  <script src="../Core/ViewModel/ProductsViewModel.js"></script>
+  <script src="../Core/ViewModel/AddProductViewModel.js"></script>
+  <script src="../Core/ViewModel/ViewModelLocator.js"></script>
+
+  <script src="Services/NavigationServiceJQueryMobile.js"></script>
+  <script src="Services/NotificationServiceJQueryMobile.js"></script>
+  <!--App-->
+  <script src="AppMobile.js"></script>
+  <script src="appstart.js"></script>
+</head>
+<body>
+  <div id="ListsView" data-view="ListsView" data-role="page" data-theme="a">
+    <div data-role="header">
+      <h1>Lists</h1>
+    </div>
+    <div data-role="main" class="ui-content">
+      <ul data-bind="foreach: lists">
+        <li data-bind="text: $data.name, click: $root.selectList, css: { list_container_selected: $data == $root.selectedList() }" />
+      </ul>
+    </div>
+  </div>
+  <div id="ProductsView" data-view="ProductsView" data-role="page">
+    <div data-role="header"><h1>Products</h1></div>
+    <div data-role="main" class="ui-content">
+      <!-- ko with: selectedList -->
+      <ul data-bind="foreach: products">
+        <li data-bind="text: $data.amount() + ' ' + $data.name(), click: $root.buyProduct, css: { product_container_bought: $data.bought }" />
+      </ul>
+      <!-- /ko -->
+    </div>
+    <div data-role="footer">
+      <table style="width: 100%">
+        <tr>
+          <td style="width: 50%">
+            <button data-bind="click: addProduct, visible: selectedList()">
+              Add Product
+            </button>
+          </td>
+          <td style="width: 50%">
+            <button data-bind="click: cleanup, visible: selectedList()">
+              Cleanup
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div id="AddProductView" data-view="AddProductView" data-role="page">
+    <div data-role="header"><h1>Add product</h1></div>
+    <div data-role="main" class="ui-content">
+      <p>Name: <input data-bind="value: name, valueUpdate: 'afterkeydown'" /></p>
+      <p>Amount: <input data-bind="value: amount" /></p>
+    </div>
+    <div data-role="footer">
+      <button data-bind="click: addProduct, enable: name() && name().length >= 2">
+        Add
+      </button>
+    </div>
+  </div>
+
+
+  <!--Message box-->
+  <div id="MessageBox" data-role="dialog">
+    <div data-role="header"><h1 data-field="HeaderContent">Add product</h1></div>
+    <div data-role="main" class="ui-content">
+      <p data-field="BodyContent"></p>
+    </div>
+    <div>
+      <table style="width: 100%">
+        <tr>
+          <td style="width: 50%"><button data-button="ButtonOk">Ok</button></td>
+          <td style="width: 50%">
+            <button data-button="ButtonCancel">Cancel</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+</body>
+</html>
