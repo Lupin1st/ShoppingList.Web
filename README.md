@@ -10,3 +10,6 @@ The project uses the MVVM structure to enhance many aspects of the cross platfor
 The application itself is a simple sopping list that is only partly implemented to show critical scenarios of cross platform development. The application uses a simple self-created MVVM implementation to provide the base structure for our application. KnockoutJs is used as a solid binding framework to connect our Views with the ViewModels.
 
 A link to the finished document that will describe and analyze this sample project as well as another project developed with .NET technologies will be published here in the future.
+
+
+To build this solution you will need Visual Studio 2013 or higher.
